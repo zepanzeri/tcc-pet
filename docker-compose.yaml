@@ -1,9 +1,8 @@
-version: '3.8'
-
 services:
   frontend:
     image: node:18-alpine
     working_dir: /app
+    user: "root"
     ports:
       - "4200:4200"
     volumes:
