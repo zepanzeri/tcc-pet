@@ -23,8 +23,8 @@ export class LoginComponent {
 
   criarCadastro() {
     const modalCadastro = this.dialog.open(ModalCadastroComponent, {
-      width: '400px',
-      height: '400px'     
+      width: '800px',
+      height: '900px'     
     });
 
     modalCadastro.afterClosed().subscribe(res => {

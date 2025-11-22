@@ -1,5 +1,51 @@
-<h2>Criar cadastro</h2>       
-<div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px;">
-    <button mat-button (click)="onCancel()" color="warn">Cancelar</button>
-    <button mat-raised-button color="primary" (click)="onConfirm()">Enviar</button>
+<div class="container">
+    <h2>Criar cadastro</h2>  
+    <mat-form-field appearance="fill" class="round-input input-large">
+        <mat-label>Nome</mat-label>
+        <input [(ngModel)]="usuario.Nome" matInput type="text" minlength="3" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="round-input input-large">
+        <mat-label>Email</mat-label>
+        <input [(ngModel)]="usuario.Email" matInput type="email" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="round-input input-large">
+        <mat-label>Senha</mat-label>
+        <input [(ngModel)]="usuario.Senha" matInput type="password" minlength="6" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="round-input input-large">
+        <mat-label>Confirmar senha</mat-label>
+        <input [(ngModel)]="senhaConfirm" matInput type="password" minlength="6"/>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="round-input input-large">
+        <mat-label>Sexo</mat-label>
+        <mat-select [(value)]="usuario.Sexo">
+            <mat-option value="">Selecione seu sexo</mat-option>
+            <mat-option value="M">Masculino</mat-option>
+            <mat-option value="F">Feminino</mat-option>
+        </mat-select>
+    </mat-form-field>     
+    <mat-form-field class="round-input input-large">
+        <mat-label>Estado</mat-label>
+        <mat-select [(value)]="estadoSelecionado" name="estado" (selectionChange)="onEstadoChange()">
+            <mat-option>Selecione um estado</mat-option>
+            <mat-option *ngFor="let estado of estados" [value]="estado">
+                {{ estado.nome }} ({{ estado.sigla }})
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="round-input input-large">
+        <mat-label>Cidade</mat-label>
+        <mat-select [(value)]="cidadeSelecionada" [disabled]="!cidades.length || loading">
+            <mat-option>Selecione uma cidade</mat-option>
+            <mat-option *ngFor="let cidade of cidades" [value]="cidade">
+                {{ cidade.nome }}
+            </mat-option>
+        </mat-select>
+        <mat-progress-spinner *ngIf="loading" matSuffix diameter="20"></mat-progress-spinner>
+    </mat-form-field>   
+    <mat-error *ngIf="!verificaErro()">Todos os campos devem ser informados</mat-error>   
 </div>
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()" style="background-color: rgb(192, 0, 0); color: white;">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="onConfirm()" [disabled]="!verificaErro()">Cadastrar</button>
+</mat-dialog-actions>
