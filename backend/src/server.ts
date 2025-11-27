@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import express, { Application } from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import usuarioRouter from './routes/Usuario.route';
 
 dotenv.config();
 
@@ -26,6 +27,8 @@ app.get('/status', (req, res) => {
     database: mongoose.connection.readyState === 1 ? 'Conectado' : 'Desconectado' 
   });
 });
+
+app.use(usuarioRouter);
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Servidor rodando na porta ${PORT}`);

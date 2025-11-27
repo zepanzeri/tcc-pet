@@ -2,10 +2,11 @@ import { Router } from 'express'
 
 import { UsuarioController } from '../controllers/Usuario.controller';
 
-const router = Router();
+const usuarioRouter = Router();
 
-router.get('/', UsuarioController.create);
+usuarioRouter.get('/usuario', UsuarioController.getUsuario);
+usuarioRouter.post('/usuario/cadastrar', UsuarioController.create);
 
-export default router;
+export default usuarioRouter;
 
 

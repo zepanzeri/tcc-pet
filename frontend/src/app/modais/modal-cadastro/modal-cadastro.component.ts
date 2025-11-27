@@ -63,6 +63,7 @@ export class ModalCadastroComponent implements OnInit {
     this.usuario.Estado = this.estadoSelecionado?.sigla;
     this.usuario.Cidade = this.cidadeSelecionada.nome;
     console.log(this.usuario);
+    
     this.dialog.close();
   }
 
