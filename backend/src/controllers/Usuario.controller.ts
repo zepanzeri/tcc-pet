@@ -1,14 +1,21 @@
-import { Request, Response } from 'express';
+import { Request, response, Response } from 'express';
+import bcrypt from "bcryptjs";
 import { Usuario, UsuarioModel } from '../models/Usuario.model';
+import { ApiResponse } from '../models/ApiResponse.model';
 
-export class UsuarioController {
+
+export class UsuarioController {    
 
     static async create(req: Request, res: Response): Promise<any> {
+        let response: ApiResponse = {} as ApiResponse;
         try {
             const { Nome, Email, Senha, Sexo, Estado, Cidade }: Usuario = req.body;
             const usuarioCadastrado = await UsuarioModel.findOne({ Email: Email.toLowerCase() });
             if(usuarioCadastrado) {
-                return res.status(400).send('Usuario ja cadastrado');
+                response.CodigoStatus = 400;   
+                response.Sucesso = false;
+                response.Erro = 'Usuario já cadastrado';
+                return res.json(response);
             }
             const novoUsuario = await UsuarioModel.create({
                 Nome: Nome,
@@ -19,28 +26,50 @@ export class UsuarioController {
                 Cidade: Cidade
             });
             if(novoUsuario.id) {
-                return res.status(200).json(novoUsuario);
+                response.CodigoStatus = 200;
+                response.Sucesso = true;                
+                return res.json(response);
             }
 
         }
         catch(e) {
-            return res.status(500).send(`Erro: ${e}`);
+            response.CodigoStatus = 500;
+            response.Sucesso = false;
+            response.Erro = `Erro: ${e}`
+            return res.json(response);
         }
     }
 
     static async getUsuario(req: Request, res: Response): Promise<any> {
+        let response: ApiResponse = {} as ApiResponse;
         try {
-            const { Email } = req.body;   
+            const { Email, Senha } = req.body;   
             const usuario = await UsuarioModel.findOne({
                 Email: Email                
             });        
             if(usuario) {
-                return res.status(200).json(usuario);
+                const senhaCorreta = await bcrypt.compare(Senha, usuario.Senha);
+                if(senhaCorreta) {
+                    response.CodigoStatus = 200;
+                    response.Sucesso = true;
+                    response.Usuario = usuario;
+                    return res.json(response);
+                }    
+                response.CodigoStatus = 400;
+                response.Sucesso = false;
+                response.Erro = 'Senha incorreta'
+                return res.json(response);        
             }
-            return res.status(400).send('Usuario não encontrado');
+            response.CodigoStatus = 400;
+            response.Erro = 'Usuario não encontrado';
+            response.Sucesso = false;
+            return res.json(response);
         }
         catch(e) {
-            return res.status(500).send(`Erro: ${e}`);
+            response.CodigoStatus = 500;
+            response.Sucesso = false;
+            response.Erro = `Erro: ${e}`;
+            return res.json(response);
         }
     }
 

@@ -12,6 +12,8 @@ import { IbgeService } from '../../services/ibge.service';
 import { Estado } from '../../models/Estado.model';
 import { Cidade } from '../../models/Cidade.model';
 import { Usuario } from '../../models/Usuario.model';
+import { CadastroService } from '../../services/cadastro.service';
+import { ApiResponse } from '../../models/ApiResponse.model';
 
 @Component({
   selector: 'app-modal-cadastro',
@@ -48,7 +50,8 @@ export class ModalCadastroComponent implements OnInit {
 
   constructor(
       private dialog: MatDialogRef<ModalCadastroComponent>,
-      private ibgeService: IbgeService
+      private ibgeService: IbgeService,
+      private cadastroService: CadastroService
     ) { }
 
   ngOnInit(): void {
@@ -62,8 +65,16 @@ export class ModalCadastroComponent implements OnInit {
   onConfirm() {
     this.usuario.Estado = this.estadoSelecionado?.sigla;
     this.usuario.Cidade = this.cidadeSelecionada.nome;
-    console.log(this.usuario);
-    
+    this.cadastroService.createCadastro(this.usuario).subscribe({
+      next: (response: ApiResponse) => {
+        if(!response.Sucesso) {
+          alert(response.Erro);
+        }
+        else {
+          alert('Cadastro realizado com sucesso!');
+        }
+      }
+    });    
     this.dialog.close();
   }
 

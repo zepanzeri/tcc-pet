@@ -5,6 +5,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog'; // ← SERVIÇO
 import { MatDialogModule } from '@angular/material/dialog';
 import { ModalCadastroComponent } from '../modais/modal-cadastro/modal-cadastro.component';
+import { Usuario } from '../models/Usuario.model';
+import { CadastroService } from '../services/cadastro.service';
+import { ApiResponse } from '../models/ApiResponse.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -13,24 +17,37 @@ import { ModalCadastroComponent } from '../modais/modal-cadastro/modal-cadastro.
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    FormsModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  constructor(private dialog: MatDialog) { }
+  email: string = '';
+  senha: string = '';
+  usuario: Usuario = {} as Usuario;
+
+  constructor(
+    private dialog: MatDialog,
+    private cadastroService: CadastroService
+  ) { }
 
   criarCadastro() {
-    const modalCadastro = this.dialog.open(ModalCadastroComponent, {
+    this.dialog.open(ModalCadastroComponent, {
       width: '800px',
       height: '900px'     
+    });  
+  }
+  
+  async login() {
+    await this.cadastroService.login(this.email, this.senha).subscribe({
+      next: (response: ApiResponse)=> {
+        if(response.Sucesso && response.Usuario) {
+          alert(`Bem vindo(a), ${response.Usuario.Nome}!`);
+        }
+      }
     });
-
-    modalCadastro.afterClosed().subscribe(res => {
-      console.log('Fechado');
-    });
-
-  }  
+  }
 
 }

@@ -46,7 +46,7 @@ const UsuarioSchema: Schema = new Schema<Usuario>(
     }
 );
 
-UsuarioSchema.pre('save', async function(next){
+UsuarioSchema.pre('save', async function(next) {
     if(!this.isModified('Senha')) 
         return next();
     try {
@@ -57,6 +57,6 @@ UsuarioSchema.pre('save', async function(next){
     catch(e) {
         next(e as any);
     }
-})
+});
 
 export const UsuarioModel = model<Usuario>('Usuario', UsuarioSchema);

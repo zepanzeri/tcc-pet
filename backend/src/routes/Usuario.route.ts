@@ -4,7 +4,7 @@ import { UsuarioController } from '../controllers/Usuario.controller';
 
 const usuarioRouter = Router();
 
-usuarioRouter.get('/usuario', UsuarioController.getUsuario);
+usuarioRouter.post('/usuario/login', UsuarioController.getUsuario);
 usuarioRouter.post('/usuario/cadastrar', UsuarioController.create);
 
 export default usuarioRouter;
