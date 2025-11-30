@@ -42,9 +42,11 @@ const UsuarioSchema: Schema = new Schema<Usuario>(
     },
     {
         timestamps: true,
-        collection: 'usuarios'
+        versionKey: false
     }
 );
+
+UsuarioSchema.index({ Email: 1 }), { unique: true };
 
 UsuarioSchema.pre('save', async function(next) {
     if(!this.isModified('Senha')) 

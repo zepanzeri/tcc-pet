@@ -1,4 +1,4 @@
-import { Request, response, Response } from 'express';
+import { Request, Response } from 'express';
 import bcrypt from "bcryptjs";
 import { Usuario, UsuarioModel } from '../models/Usuario.model';
 import { ApiResponse } from '../models/ApiResponse.model';
