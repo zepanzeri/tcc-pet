@@ -9,6 +9,7 @@ import { Usuario } from '../models/Usuario.model';
 import { CadastroService } from '../services/cadastro.service';
 import { ApiResponse } from '../models/ApiResponse.model';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +31,8 @@ export class LoginComponent {
 
   constructor(
     private dialog: MatDialog,
-    private cadastroService: CadastroService
+    private cadastroService: CadastroService,
+    private router: Router
   ) { }
 
   criarCadastro() {
@@ -44,7 +46,8 @@ export class LoginComponent {
     await this.cadastroService.login(this.email, this.senha).subscribe({
       next: (response: ApiResponse)=> {
         if(response.Sucesso && response.Usuario) {
-          alert(`Bem vindo(a), ${response.Usuario.Nome}!`);
+          console.log('login ok');
+          this.router.navigate(['/home']);
         }
       }
     });
