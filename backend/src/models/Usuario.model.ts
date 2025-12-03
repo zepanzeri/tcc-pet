@@ -1,7 +1,8 @@
-import { Schema, Document, model } from 'mongoose'
+import mongoose, { Schema, Document, model } from 'mongoose'
 import bcrypt from "bcryptjs";
 
 export interface Usuario extends Document {
+    IdUsuario: number;
     Nome: string;
     Email: string;
     Senha: string;
@@ -12,6 +13,10 @@ export interface Usuario extends Document {
 
 const UsuarioSchema: Schema = new Schema<Usuario>(
     {
+        IdUsuario: {
+            type: Number,
+            unique: true
+        },
         Nome: {
             type: String,
             required: true,
@@ -25,7 +30,8 @@ const UsuarioSchema: Schema = new Schema<Usuario>(
         },
         Senha: {
             type: String,
-            required: true
+            required: true,
+            select: false
         },
         Sexo: {
             type: String,
@@ -60,5 +66,21 @@ UsuarioSchema.pre('save', async function(next) {
         next(e as any);
     }
 });
+
+UsuarioSchema.pre('save', async function(next){
+    if(this.isNew && !this.IdUsuario) {
+        try {
+            const ultimoRegistro = await mongoose.model('Usuario')
+                .findOne()
+                .sort({ IdUsuario: -1 });            
+            this.IdUsuario = ultimoRegistro ? ultimoRegistro.IdUsuario + 1 : 1;
+        }
+        catch(e) {
+            this.IdUsuario = 1;
+        }
+    }
+    next();
+});
+
 
 export const UsuarioModel = model<Usuario>('Usuario', UsuarioSchema);

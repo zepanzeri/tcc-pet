@@ -40,19 +40,20 @@ export class UsuarioController {
         }
     }
 
-    static async getUsuario(req: Request, res: Response): Promise<any> {
+    static async login(req: Request, res: Response): Promise<any> {
         let response: ApiResponse = {} as ApiResponse;
         try {
             const { Email, Senha } = req.body;   
             const usuario = await UsuarioModel.findOne({
-                Email: Email                
-            });        
+                Email: Email
+            }).select('+Senha');        
             if(usuario) {
                 const senhaCorreta = await bcrypt.compare(Senha, usuario.Senha);
                 if(senhaCorreta) {
+                    const {Senha, ...usuarioSemSenha} = usuario.toObject();
                     response.CodigoStatus = 200;
                     response.Sucesso = true;
-                    response.Usuario = usuario;
+                    response.Usuario = usuarioSemSenha;
                     return res.json(response);
                 }    
                 response.CodigoStatus = 400;
@@ -60,6 +61,32 @@ export class UsuarioController {
                 response.Erro = 'Senha incorreta'
                 return res.json(response);        
             }
+            response.CodigoStatus = 400;
+            response.Erro = 'Usuario não encontrado';
+            response.Sucesso = false;
+            return res.json(response);
+        }
+        catch(e) {
+            response.CodigoStatus = 500;
+            response.Sucesso = false;
+            response.Erro = `Erro: ${e}`;
+            return res.json(response);
+        }
+    }
+
+    static async getUsuario(req: Request, res: Response): Promise<any> {
+        let response: ApiResponse = {} as ApiResponse;
+        try {
+            const { Email } = req.body;   
+            const usuario = await UsuarioModel.findOne({
+                Email: Email
+            });        
+            if(usuario) {               
+                response.CodigoStatus = 200;
+                response.Sucesso = true;
+                response.Usuario = usuario;
+                return res.json(response);      
+            }                                            
             response.CodigoStatus = 400;
             response.Erro = 'Usuario não encontrado';
             response.Sucesso = false;

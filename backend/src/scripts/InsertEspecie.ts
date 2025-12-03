@@ -1,6 +1,6 @@
 import EspecieModel from "../models/Especie.model";
 
-export default async function insert() {
+export default async function insertEspecie() {
     try {
         const dadosInseridos = await EspecieModel.countDocuments();      
         if(dadosInseridos === 0) {
@@ -21,4 +21,4 @@ export default async function insert() {
     }
 }
 
-insert();
+insertEspecie();

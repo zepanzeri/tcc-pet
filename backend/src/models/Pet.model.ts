@@ -8,8 +8,8 @@ export interface Pet extends Document {
     Sexo: string;
     Castrado: boolean;
     Vacinas: string;
-    IdEspecie: Types.ObjectId;
-    IdUsuario: Types.ObjectId;
+    IdEspecie: number;
+    IdUsuario: number;
 }
 
 const PetSchema: Schema = new Schema<Pet>(
@@ -41,12 +41,12 @@ const PetSchema: Schema = new Schema<Pet>(
             type: String            
         },
         IdEspecie: {
-            type: Schema.Types.ObjectId,
+            type: Number,
             ref: 'Especie',
             required: true
         },
         IdUsuario: {
-            type: Schema.Types.ObjectId,
+            type: Number,
             ref: 'Usuario',
             required: true
         }

@@ -3,8 +3,9 @@ import express, { Application } from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import usuarioRouter from './routes/Usuario.route';
-import insert from './scripts/InsertEspecie';
 import petRouter from './routes/Pet.route';
+import insertEspecie from './scripts/InsertEspecie';
+import insertPet from './scripts/InsertPet';
 
 dotenv.config();
 
@@ -38,6 +39,7 @@ async function startServer() {
     console.log(`Servidor rodando na porta ${PORT}`);
   });
 
-  await insert();
+  await insertEspecie();
+  await insertPet();
 }
 startServer();

@@ -5,6 +5,6 @@ export interface ApiResponse {
     CodigoStatus: number;
     Sucesso: boolean;
     Erro?: string;
-    Usuario?: Usuario;
+    Usuario?: any;
     Pets?: Pet[]
 }

@@ -3,12 +3,13 @@ import { HomeComponent } from './home/home.component';
 import { FavoritosComponent } from './favoritos/favoritos.component';
 import { ConfiguracoesComponent } from './configuracoes/configuracoes.component';
 import { LoginComponent } from './login/login.component';
+import { authGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
-    { path: 'login', component: LoginComponent },
-    { path: 'home', component: HomeComponent },
-    { path: 'favoritos', component: FavoritosComponent },
-    { path: 'configuracoes', component: ConfiguracoesComponent },
+    { path: 'login', component: LoginComponent},
+    { path: 'home', component: HomeComponent, canActivate: [authGuard] },
+    { path: 'favoritos', component: FavoritosComponent, canActivate: [authGuard] },
+    { path: 'configuracoes', component: ConfiguracoesComponent, canActivate: [authGuard] },
     { path: '**', redirectTo: 'login' }
 ];

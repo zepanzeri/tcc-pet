@@ -46,7 +46,7 @@ export class LoginComponent {
     await this.cadastroService.login(this.email, this.senha).subscribe({
       next: (response: ApiResponse)=> {
         if(response.Sucesso && response.Usuario) {
-          console.log('login ok');
+          localStorage.setItem('email', response.Usuario.Email);
           this.router.navigate(['/home']);
         }
       }
