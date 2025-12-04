@@ -8,7 +8,35 @@ export class PetController {
     static async getPets(req: Request, res: Response): Promise<any> {
         let response: ApiResponse = {} as ApiResponse; 
         try {
-            const pets = await PetModel.find();
+            const pets = await PetModel.aggregate([
+                {
+                    $lookup: {
+                        from: 'especies',
+                        localField: 'IdEspecie',
+                        foreignField: 'IdEspecie',
+                        as: 'Especie'
+                    }
+                },
+                { $unwind: '$Especie' },
+                {
+                    $lookup: {
+                        from: 'usuarios',
+                        localField: 'IdUsuario',
+                        foreignField: 'IdUsuario',
+                        as: 'Usuario'
+                    }
+                },
+                { $unwind: '$Usuario' },
+                {
+                    $project: {
+                        'Usuario._id': 0,
+                        'Usuario.Senha': 0,
+                        'Usuario.createdAt': 0,
+                        'Usuario.updatedAt': 0,
+                        'Especie._id': 0
+                    }
+                }
+            ]);
             if(pets) {
                 response.CodigoStatus = 200;
                 response.Sucesso = true;

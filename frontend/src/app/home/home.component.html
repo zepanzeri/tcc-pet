@@ -1,1 +1,7 @@
-<p>home works!</p>
+<div class="cards-container">
+    <pet-card
+        *ngFor="let pet of pets"
+        [nome]="pet.Nome"
+        [cidade]="pet.Usuario.Cidade">
+    </pet-card>
+</div>

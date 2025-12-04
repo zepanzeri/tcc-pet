@@ -8,7 +8,7 @@ export class AuthService {
   constructor() { }
 
   getEmailLogado(): string | null {
-    return localStorage.getItem('email');
+    return sessionStorage.getItem('email');
   }
 
   usuarioLogado(): boolean {
