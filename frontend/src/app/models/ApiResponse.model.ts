@@ -1,3 +1,4 @@
+import { Especie } from "./Especie.model";
 import { Pet } from "./Pet.model";
 import { Usuario } from "./Usuario.model";
 
@@ -7,4 +8,5 @@ export interface ApiResponse {
     Erro?: string;
     Usuario?: Usuario;
     Pets?: Pet[];
+    Especies?: Especie[];
 }

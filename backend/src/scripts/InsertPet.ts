@@ -14,7 +14,27 @@ export default async function insertPet() {
                     Vacinas: 'V4, Antirrabica',
                     IdEspecie: 2,
                     IdUsuario: 1                                        
-                }               
+                },
+                {
+                    Nome: 'Tobias',
+                    DtNascimento: '2021-03-01',
+                    Raca: 'Beagle',
+                    Sexo: 'M',
+                    Castrado: true,
+                    Vacinas: 'Antirrabica',
+                    IdEspecie: 1,
+                    IdUsuario: 1
+                },
+                {
+                    Nome: 'Catatau',
+                    DtNascimento: '2025-04-22',
+                    Raca: 'SRD',
+                    Sexo: 'M',
+                    Castrado: false,
+                    Vacinas: '',
+                    IdEspecie: 3,
+                    IdUsuario: 2
+                }           
             ];
 
             for(const pet of pets) {

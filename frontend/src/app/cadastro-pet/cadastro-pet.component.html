@@ -1,0 +1,58 @@
+<div class="container">
+    <h2>Cadastrar Pet</h2>  
+    <input type="file" multiple (change)="addArquivo($event)"/>
+    <mat-form-field appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input [(ngModel)]="pet.Nome" matInput type="text" minlength="3" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Raca</mat-label>
+        <input [(ngModel)]="pet.Raca" matInput type="text" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Data de nascimento</mat-label>
+        <input
+            matInput
+            [matDatepicker]="picker"
+            [(ngModel)]="pet.DtNascimento" />
+        <mat-datepicker-toggle
+            matSuffix
+            [for]="picker">
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field> 
+    <mat-form-field appearance="outline">
+        <mat-label>Especie</mat-label>
+        <mat-select [(ngModel)]="pet.Especie">
+            <mat-option value="">Escolha a especie do animal</mat-option>            
+            <mat-option *ngFor="let especie of especies" [value]="especie">
+                {{ especie.Descricao }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>      
+    <mat-form-field appearance="outline">
+        <mat-label>Sexo</mat-label>
+        <mat-select [(ngModel)]="pet.Sexo">
+            <mat-option value="">Sexo do animal</mat-option>
+            <mat-option value="M">Macho</mat-option>
+            <mat-option value="F">Femea</mat-option>
+        </mat-select>
+    </mat-form-field>        
+    <mat-label>Castrado?</mat-label>
+    <mat-radio-group [(ngModel)]="pet.Castrado">
+        <mat-radio-button value="true">Sim</mat-radio-button>
+        <mat-radio-button value="false">Nao</mat-radio-button>
+    </mat-radio-group>        
+    <mat-form-field appearance="outline">
+        <mat-label>Vacinas</mat-label>
+        <textarea
+            matInput
+            rows="4"
+            [(ngModel)]="pet.Vacinas">
+        </textarea>
+    </mat-form-field>   
+</div>
+<div>
+    <button mat-button (click)="onCancel()" style="background-color: rgb(192, 0, 0); color: white;">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="onConfirm()">Cadastrar</button>
+</div>

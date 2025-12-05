@@ -3,31 +3,58 @@ import { PetService } from '../services/pet.service';
 import { Pet } from '../models/Pet.model';
 import { CommonModule } from '@angular/common';
 import { PetCardComponent } from '../pet-card/pet-card.component';
+import { EspecieService } from '../services/especie.service';
+import { Especie } from '../models/Especie.model';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     CommonModule,
-    PetCardComponent
+    PetCardComponent,
+    MatButtonModule,
+    MatInputModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
   pets: Pet[] = [];
-  constructor(private petService: PetService) {}
+  petsFiltro: Pet[] = [];
+  especies: Especie[] = [];
+  corBtnEspecie: any = {};
+  usuario: string = '';
 
-  ngOnInit(): void {
+  constructor(
+    private petService: PetService,
+    private especieService: EspecieService
+  ) {}
+
+  ngOnInit(): void {    
     this.buscaPets();
+    this.buscaEspecies();
+    this.usuario = sessionStorage.getItem('email') ?? '';
+
+    this.corBtnEspecie = {
+      1: '#d39b2c',
+      2: '#d4634d',
+      3: '#5cc4d7',
+      4: '#b256c8',
+      5: '#249245ff'
+    }
   }
 
   buscaPets() {
     this.petService.getPets().subscribe({
       next: (response) => {
-        console.log(response);
         if(response.Sucesso){
           this.pets = response.Pets ?? [];
+          this.petsFiltro = this.pets;
         }
       },
       error: (e) => {
@@ -36,4 +63,20 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  buscaEspecies() {
+    this.especieService.getEspecies().subscribe({
+      next: (response) => {
+        if(response.Sucesso) {
+          this.especies = response.Especies ?? [];
+        }
+      },
+      error: (e) => {
+        console.log(e);
+      }
+    });
+  }
+
+  filtrarEspecies(id: number) {
+    this.petsFiltro = this.pets.filter(pet => pet.Especie.IdEspecie === id);
+  }
 }

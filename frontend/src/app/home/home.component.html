@@ -1,7 +1,23 @@
+<div class="filtroEspecie">
+    <button
+        mat-raised-button
+        *ngFor="let especie of especies"
+        [ngStyle]="{
+                'background-color': corBtnEspecie[especie.IdEspecie],
+                'color': 'white',
+                'border-radius': '25px'
+            }"
+        (click)="filtrarEspecies(especie.IdEspecie)">
+        {{ especie.Descricao }}
+    </button>        
+</div>
+
 <div class="cards-container">
-    <pet-card
-        *ngFor="let pet of pets"
-        [nome]="pet.Nome"
-        [cidade]="pet.Usuario.Cidade">
-    </pet-card>
+    <ng-container *ngFor="let pet of petsFiltro">
+        <pet-card
+            *ngIf="pet.Usuario.Email !== usuario"
+            [nome]="pet.Nome"
+            [cidade]="pet.Usuario.Cidade">
+        </pet-card>
+    </ng-container>
 </div>

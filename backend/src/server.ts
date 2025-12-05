@@ -6,6 +6,7 @@ import usuarioRouter from './routes/Usuario.route';
 import petRouter from './routes/Pet.route';
 import insertEspecie from './scripts/InsertEspecie';
 import insertPet from './scripts/InsertPet';
+import especieRouter from './routes/Especie.route';
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ async function startServer() {
 
   app.use(usuarioRouter);
   app.use(petRouter);
+  app.use(especieRouter);
 
   app.listen(PORT, '0.0.0.0', () => {
     console.log(`Servidor rodando na porta ${PORT}`);

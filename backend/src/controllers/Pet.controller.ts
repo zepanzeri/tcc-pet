@@ -59,7 +59,7 @@ export class PetController {
         }
     }
 
-        static async getPetsUsuario(req: Request, res: Response): Promise<any> {
+    static async getPetsUsuario(req: Request, res: Response): Promise<any> {
         let response: ApiResponse = {} as ApiResponse; 
         try {
             const { Email } = req.body;
@@ -93,6 +93,44 @@ export class PetController {
             response.CodigoStatus = 500;
             response.Erro = `Erro: ${e}`;
             response.Sucesso = false;
+
+            return res.json(response);
+        }
+    }
+
+    static async cadastraPet(req: Request, res: Response) {
+        const pet = req.body;
+        let response: ApiResponse = {} as ApiResponse;
+        try {
+            const imagens = (req.files as Express.Multer.File[] | undefined)?.map(file => file.filename) ?? [];
+            const dataFormatada = new Date(pet.DtNascimento.getTime() - pet.DtNascimento.getTimezoneOffset() * 60000)
+                .toISOString()
+                .split('T')[0];
+            const newPet = await PetModel.create({
+                Nome: pet.Nome,
+                DtNascimento: dataFormatada,
+                Raca: pet.Raca,
+                Sexo: pet.Sexo,
+                Castrado: pet.Castrado,
+                Vacinas: pet.Vacinas,
+                IdEspecie: pet.IdEspecie,
+                IdUsuario: pet.IdUsuario,
+                Imagens: imagens
+            })
+            if(newPet.IdPet) {
+                response.Sucesso = true;
+                response.CodigoStatus = 200;
+
+                return res.json(response);
+            }
+            response.Sucesso = false;
+            response.CodigoStatus = 400;
+            response.Erro = 'Erro ao criar cadastro do pet';
+            return res.json(response);       
+             } catch(e) {
+            response.Sucesso = false;
+            response.CodigoStatus = 500;
+            response.Erro = `Erro: ${e}`;
 
             return res.json(response);
         }

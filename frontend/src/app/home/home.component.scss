@@ -3,3 +3,14 @@
   flex-wrap: wrap;
   gap: 24px;
 }
+
+.filtroEspecie {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+button {
+  padding: 5px 20px;
+}
