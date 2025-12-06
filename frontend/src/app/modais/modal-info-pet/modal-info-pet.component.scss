@@ -1,0 +1,67 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 300px;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.input-large {
+    width: 60%;
+}
+
+button {
+    border-radius: 25px;
+}
+
+::ng-deep .round-input .mat-mdc-text-field-wrapper {
+  border-radius: 30px !important;
+  padding: 0 14px !important;
+}
+
+::ng-deep .round-input .mdc-text-field--filled {
+  border-radius: 30px !important;
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
+
+::ng-deep .round-input .mdc-line-ripple {
+  display: none !important;
+}
+
+.slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-wrapper {
+  width: 100%;
+  min-height: 300px;
+  margin-bottom: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-img {
+  width: 100%;
+  object-fit: contain;
+  max-height: 350px;
+}
+
+.carousel-wrapper .owl-carousel .owl-stage-outer {
+  height: 100% !important;
+}
+
+.owl-carousel,
+.owl-stage-outer {
+  position: relative !important;
+  overflow: hidden;
+}
+

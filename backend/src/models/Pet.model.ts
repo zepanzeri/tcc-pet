@@ -10,6 +10,7 @@ export interface Pet extends Document {
     Vacinas: string;
     IdEspecie: number;
     IdUsuario: number;
+    Cor: string;
     Imagens?: string[];
 }
 
@@ -51,8 +52,11 @@ const PetSchema: Schema = new Schema<Pet>(
             ref: 'Usuario',
             required: true
         },
+        Cor: {
+            type: String
+        },
         Imagens: {
-            type: String,
+            type: [String],
             default: []
         }
     },

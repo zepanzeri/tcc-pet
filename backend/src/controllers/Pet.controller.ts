@@ -103,26 +103,29 @@ export class PetController {
         let response: ApiResponse = {} as ApiResponse;
         try {
             const imagens = (req.files as Express.Multer.File[] | undefined)?.map(file => file.filename) ?? [];
-            const dataFormatada = new Date(pet.DtNascimento.getTime() - pet.DtNascimento.getTimezoneOffset() * 60000)
-                .toISOString()
-                .split('T')[0];
-            const newPet = await PetModel.create({
-                Nome: pet.Nome,
-                DtNascimento: dataFormatada,
-                Raca: pet.Raca,
-                Sexo: pet.Sexo,
-                Castrado: pet.Castrado,
-                Vacinas: pet.Vacinas,
-                IdEspecie: pet.IdEspecie,
-                IdUsuario: pet.IdUsuario,
-                Imagens: imagens
-            })
-            if(newPet.IdPet) {
-                response.Sucesso = true;
-                response.CodigoStatus = 200;
-
-                return res.json(response);
-            }
+            pet.DtNascimento = new Date(pet.DtNascimento);
+            const dataFormatada = pet.DtNascimento.toISOString().split('T')[0];
+            const usuario = await UsuarioModel.findOne({
+                Email: pet.Usuario
+            });
+            if(usuario) {
+                const newPet = await PetModel.create({
+                    Nome: pet.Nome,
+                    DtNascimento: dataFormatada,
+                    Raca: pet.Raca,
+                    Sexo: pet.Sexo,
+                    Castrado: pet.Castrado,
+                    Vacinas: pet.Vacinas,
+                    IdEspecie: pet.IdEspecie,
+                    IdUsuario: usuario.IdUsuario,                    
+                    Imagens: imagens
+                });
+                if(newPet.IdPet) {
+                    response.Sucesso = true;
+                    response.CodigoStatus = 200;
+                    return res.json(response);
+                }
+            }           
             response.Sucesso = false;
             response.CodigoStatus = 400;
             response.Erro = 'Erro ao criar cadastro do pet';

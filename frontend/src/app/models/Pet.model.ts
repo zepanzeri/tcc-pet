@@ -8,5 +8,6 @@ export interface Pet {
     Vacinas?: string;
     Especie?: any;
     Usuario?: any;
-    Imagens?: File[];
+    Cor: string;
+    Imagens?: any[];
 }

@@ -1,11 +1,14 @@
-<mat-card class="pet-card">
-    <div>
+<mat-card class="pet-card" (click)="abrirModal()">
+    <div class="img-container">
+        <img
+            [src]="getUrlImagem()"
+            class="pet-img">
     </div>
     <mat-card-content>
-        <h2>{{ nome }}</h2>
+        <h2>{{ pet.Nome }}</h2>
         <div>
-            <span class="material-icons">location_on</span>
-            <span>{{ cidade }}</span>
+            <span class="material-icons icone">location_on</span>
+            <span>{{ pet.Usuario.Cidade }} - {{ pet.Usuario.Estado }}</span>
         </div>
     </mat-card-content>
 </mat-card>

@@ -1,11 +1,16 @@
-<div class="filtroEspecie">
+<div class="filtroEspecie">    
+     <button
+        mat-raised-button  
+        style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0);"     
+        (click)="mostrarTodos()">
+            Todos
+    </button>   
     <button
         mat-raised-button
         *ngFor="let especie of especies"
         [ngStyle]="{
                 'background-color': corBtnEspecie[especie.IdEspecie],
-                'color': 'white',
-                'border-radius': '25px'
+                'color': 'white'
             }"
         (click)="filtrarEspecies(especie.IdEspecie)">
         {{ especie.Descricao }}
@@ -16,8 +21,8 @@
     <ng-container *ngFor="let pet of petsFiltro">
         <pet-card
             *ngIf="pet.Usuario.Email !== usuario"
-            [nome]="pet.Nome"
-            [cidade]="pet.Usuario.Cidade">
+            [pet]="pet"
+            (emiteDados)="abrirModal($event)">
         </pet-card>
     </ng-container>
 </div>

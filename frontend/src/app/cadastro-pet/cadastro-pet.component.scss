@@ -1,6 +1,109 @@
 .container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 16px;
+  padding-bottom: 100px;
+}
+
+.image-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
   align-items: center;
+}
+
+.preview {
+  position: relative;
+  width: 120px;
+  height: 160px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #eee;
+}
+
+.preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.upload{
+  width: 120px;
+  height: 160px;
+  border-radius: 12px;
+  background: #e0e0e0;
+  border: 2px dashed #aaa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #666;
+  transition: 0.2s;
+  text-align: center;
+}
+
+.upload-box:hover {
+  background: #d5d5d5;
+}
+
+.upload.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 18px;
+  padding: 0;
+}
+
+.delete-btn:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+::ng-deep .round-input .mat-mdc-text-field-wrapper {
+  border-radius: 30px !important;
+  padding: 0 14px !important;
+}
+
+::ng-deep .round-input .mdc-text-field--filled {
+  border-radius: 30px !important;
+  background-color: #fff;
+  border: 1px solid #ccc; 
+}
+
+::ng-deep .round-input .mdc-line-ripple {
+  display: none !important;
+}
+
+.round-input {
+    width: 400px;
+    min-width: 200px;
+}
+
+.btnAcao {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  justify-content: flex-end;
 }

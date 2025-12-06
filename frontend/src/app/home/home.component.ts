@@ -8,6 +8,8 @@ import { Especie } from '../models/Especie.model';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalInfoPetComponent } from '../modais/modal-info-pet/modal-info-pet.component';
 
 @Component({
   selector: 'app-home',
@@ -32,7 +34,8 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private petService: PetService,
-    private especieService: EspecieService
+    private especieService: EspecieService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {    
@@ -54,7 +57,7 @@ export class HomeComponent implements OnInit {
       next: (response) => {
         if(response.Sucesso){
           this.pets = response.Pets ?? [];
-          this.petsFiltro = this.pets;
+          this.petsFiltro = [...this.pets];
         }
       },
       error: (e) => {
@@ -76,7 +79,25 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  filtrarEspecies(id: number) {
+  filtrarEspecies(id: number) {   
     this.petsFiltro = this.pets.filter(pet => pet.Especie.IdEspecie === id);
+  }
+
+  mostrarTodos() {
+    this.petsFiltro = [...this.pets];
+  }
+
+  abrirModal(pet: any) {
+    const dialogRef = this.dialog.open(ModalInfoPetComponent, {
+      width: '800px',
+      height: '900px',
+      data: pet
+    });
+    
+    dialogRef.afterOpened().subscribe(() => {
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+      }, 50);
+    });
   }
 }

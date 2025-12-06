@@ -2,6 +2,8 @@ import dotenv from 'dotenv';
 import express, { Application } from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import path from 'path';
+
 import usuarioRouter from './routes/Usuario.route';
 import petRouter from './routes/Pet.route';
 import insertEspecie from './scripts/InsertEspecie';
@@ -36,6 +38,7 @@ async function startServer() {
   app.use(usuarioRouter);
   app.use(petRouter);
   app.use(especieRouter);
+  app.use('/imagem', express.static(path.resolve(__dirname, '..', 'uploads')));
 
   app.listen(PORT, '0.0.0.0', () => {
     console.log(`Servidor rodando na porta ${PORT}`);

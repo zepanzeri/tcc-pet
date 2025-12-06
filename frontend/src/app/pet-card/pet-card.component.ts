@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { Pet } from '../models/Pet.model';
 
 @Component({
   selector: 'pet-card',
@@ -11,7 +12,20 @@ import { MatCardModule } from '@angular/material/card';
   styleUrl: './pet-card.component.scss'
 })
 export class PetCardComponent {
-@Input() nome!: string;
-@Input() cidade!: string;
-@Input() urlImagem?: string;
+  @Input() pet!: Pet;
+  @Output() emiteDados = new EventEmitter<Pet>();
+
+  private urlUpload: string = 'http://localhost:3000/imagem';
+
+  getUrlImagem() {
+    if(this.pet.Imagens && this.pet.Imagens.length > 0) {
+      return `${this.urlUpload}/${this.pet.Imagens[0]}`
+    }
+    return `${this.urlUpload}/placeholder.jpg`;
+  }
+
+  abrirModal() {
+    this.emiteDados.emit(this.pet);
+  }
+
 }

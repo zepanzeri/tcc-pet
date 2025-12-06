@@ -6,6 +6,6 @@ const petRouter = Router();
 
 petRouter.get('/pet', PetController.getPets);
 petRouter.get('/pet/usuario', PetController.getPetsUsuario);
-petRouter.post('/pet/cadastro', upload.array('imagens', 5), PetController.cadastraPet);
+petRouter.post('/pet/cadastrar', upload.array('imagens', 5), PetController.cadastraPet);
 
 export default petRouter;

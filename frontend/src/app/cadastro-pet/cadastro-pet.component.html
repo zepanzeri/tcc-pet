@@ -1,15 +1,37 @@
 <div class="container">
     <h2>Cadastrar Pet</h2>  
-    <input type="file" multiple (change)="addArquivo($event)"/>
-    <mat-form-field appearance="outline">
+    <div class="image-container">
+        <div *ngFor="let imagem of imagensPreview; let i = index" class="preview">
+            <button class="delete-btn" (click)="removerImagem(i)">x</button>
+            <img [src]="imagem" />
+        </div>
+        <label class="upload"
+            for="imagemInput"
+            [class.disabled]="imagens.length >= 5">
+            <span class="material-icons">photo_camera</span>
+            <span>Adicionar imagem</span>
+        </label>
+        <input [disabled]="imagens.length >= 5"
+            type="file"
+            id="imagemInput"
+            accept="image/png, image/jpeg"
+            multiple
+            (change)="addArquivo($event)"
+            hidden/>       
+    </div>
+    <mat-form-field appearance="fill" class="round-input">
         <mat-label>Nome</mat-label>
         <input [(ngModel)]="pet.Nome" matInput type="text" minlength="3" />
     </mat-form-field>
-    <mat-form-field appearance="outline">
-        <mat-label>Raca</mat-label>
+    <mat-form-field appearance="fill" class="round-input">
+        <mat-label>Raça</mat-label>
         <input [(ngModel)]="pet.Raca" matInput type="text" />
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="fill" class="round-input">
+        <mat-label>Cor</mat-label>
+        <input [(ngModel)]="pet.Cor" matInput type="text" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="round-input">
         <mat-label>Data de nascimento</mat-label>
         <input
             matInput
@@ -21,7 +43,7 @@
         </mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field> 
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="fill" class="round-input">
         <mat-label>Especie</mat-label>
         <mat-select [(ngModel)]="pet.Especie">
             <mat-option value="">Escolha a especie do animal</mat-option>            
@@ -30,7 +52,7 @@
             </mat-option>
         </mat-select>
     </mat-form-field>      
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="fill" class="round-input">
         <mat-label>Sexo</mat-label>
         <mat-select [(ngModel)]="pet.Sexo">
             <mat-option value="">Sexo do animal</mat-option>
@@ -43,7 +65,7 @@
         <mat-radio-button value="true">Sim</mat-radio-button>
         <mat-radio-button value="false">Nao</mat-radio-button>
     </mat-radio-group>        
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="fill" class="round-input">
         <mat-label>Vacinas</mat-label>
         <textarea
             matInput
@@ -51,8 +73,8 @@
             [(ngModel)]="pet.Vacinas">
         </textarea>
     </mat-form-field>   
-</div>
-<div>
-    <button mat-button (click)="onCancel()" style="background-color: rgb(192, 0, 0); color: white;">Cancelar</button>
-    <button mat-raised-button color="primary" (click)="onConfirm()">Cadastrar</button>
+    <div class="btnAcao">
+        <button mat-button (click)="onCancel()" style="background-color: rgb(192, 0, 0); color: white;">Cancelar</button>
+        <button mat-raised-button color="primary" (click)="onConfirm()">Cadastrar</button>
+    </div>
 </div>
