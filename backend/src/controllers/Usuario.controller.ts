@@ -77,11 +77,11 @@ export class UsuarioController {
     static async getUsuario(req: Request, res: Response): Promise<any> {
         let response: ApiResponse = {} as ApiResponse;
         try {
-            const { Email } = req.body;   
+            const Email = req.query.Email;
             const usuario = await UsuarioModel.findOne({
                 Email: Email
             });        
-            if(usuario) {               
+            if(usuario) { 
                 response.CodigoStatus = 200;
                 response.Sucesso = true;
                 response.Usuario = usuario;
@@ -90,6 +90,36 @@ export class UsuarioController {
             response.CodigoStatus = 400;
             response.Erro = 'Usuario não encontrado';
             response.Sucesso = false;
+            return res.json(response);
+        }
+        catch(e) {
+            response.CodigoStatus = 500;
+            response.Sucesso = false;
+            response.Erro = `Erro: ${e}`;
+            return res.json(response);
+        }
+    }
+
+    static async updateUsuario(req: Request, res: Response) {
+        let response: ApiResponse = {} as ApiResponse;
+        try {
+            const Email = req.body.Email;
+            const usuarioAtualizado = UsuarioModel.findOneAndUpdate(
+                { Email: Email },
+                req.body,
+                { new: true }
+            );
+            if(!usuarioAtualizado) {               
+                response.CodigoStatus = 400;
+                response.Sucesso = false;
+                response.Erro = 'Usuario não encontrado / Erro ao atualizar';
+
+                return res.json(response);      
+            }                                            
+            response.Sucesso = true;
+            response.CodigoStatus = 200;
+            response.Usuario = usuarioAtualizado
+
             return res.json(response);
         }
         catch(e) {

@@ -6,7 +6,7 @@
     </mat-form-field>
     <mat-form-field appearance="fill" class="round-input input-large">
         <mat-label>Email</mat-label>
-        <input [(ngModel)]="usuario.Email" matInput type="email" />
+        <input [(ngModel)]="usuario.Email" matInput type="email" [disabled]="!!this.dadosUsuario"/>
     </mat-form-field>
     <mat-form-field appearance="fill" class="round-input input-large">
         <mat-label>Senha</mat-label>

@@ -28,5 +28,14 @@ export class CadastroService {
     return this.http.post<ApiResponse>(url, dadosLogin);
   }
 
+  getDadosUsuario(email: string): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(this.apiUrl, { params: { Email: email } });
+  }
+
+  updateUsuario(dadosUsuario: Usuario): Observable<ApiResponse> {
+    const url = `${this.apiUrl}/atualizar`;
+    return this.http.put<ApiResponse>(url, dadosUsuario);
+  }
+
 
 }
